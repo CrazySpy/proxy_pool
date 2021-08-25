@@ -251,6 +251,19 @@ class ProxyFetcher(object):
                 yield ip.strip()
 
 
+    @staticmethod
+    def geonode():
+        """
+        https://geonode.com/free-proxy-list
+        """
+        url = 'https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=http&anonymityLevel=elite&anonymityLevel=anonymous'
+        r = WebRequest().get(url, timeout=20)
+        proxies = r.json()['data']
+        for proxy in proxies:
+            yield proxy['ip'] + ':' + proxy['port']
+
+
+
 if __name__ == '__main__':
     p = ProxyFetcher()
     for _ in p.freeProxy13():
